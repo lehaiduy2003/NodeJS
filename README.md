@@ -4,3 +4,4 @@ Install express framework
 Install ejs template engine
 Install dotenv
 Install nodemon
+Install mysql2
