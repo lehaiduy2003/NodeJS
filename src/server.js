@@ -1,12 +1,11 @@
 const express = require('express') //commonjs
-
 const connection = require('./configs/Database.js')
 const configViewEngine = require('./configs/ViewEngine.js')
 const webRoutes = require('./routes/web.js')
 
 const app = express() // app của express
-const port = process.env.PORT || 8888; // const port = 8081 // => hardcode
-const hostname = process.env.HOSTNAME; // const hostname = 'localhost' // => hardcode
+const port = process.env.PORT || 8888; // fix hardcode
+const hostname = process.env.HOSTNAME; // fix hardcode
 
 //config req.body
 app.use(express.json()) //for json

@@ -1,10 +1,12 @@
 const connection = require('../configs/Database.js')
-const getHomepage = (req, res) => {
-    return res.render('homepage.ejs')
+const { getAllUsers, createUser, getUpdateUser, updateUser } = require('../services/CRUDService.js')
+
+const getHomepage = async (req, res) => {
+    let results = await getAllUsers();
+    return res.render('homepage.ejs', { listUsers: results })
 }
 
 const getABC = (req, res) => {
-
     res.render('sample.ejs')
 }
 
@@ -14,38 +16,31 @@ const getBruh = (req, res) => {
 const createUserPage = (req, res) => {
     res.render('create.ejs')
 }
-const createUser = async (req, res) => {
-    //console.log(req.body)
-    // let email = req.body.email
-    // let name = req.body.name
-    // let city = req.body.city
+const postCreateUser = async (req, res) => {
 
-    //let { email, name, city } = req.body
+    let results = await createUser(req, res)
 
-    let [results, fields] = await (await connection).execute(
-        `INSERT INTO User (email, name, city)
-        VALUES(?, ?, ?)`,
-        [req.body.email, req.body.name, req.body.city]
-        // (err, results) => {
-        //     console.log(results);
-        //     res.send("create user succeed!")
-        // }
-    )
-
-    console.log(results)
-
+    //console.log(results)
     res.send('create user succeed')
-    // connection.query(
-    //     'SELECT * FROM User u',
-    //     function (err, results, fields) {
-    //         console.log(results); // results contains rows returned by server
-    //         //console.log(fields); // fields contains extra meta data about results, if available
-    //     },
-    //const [results, fields] = await (await connection).execute('SELECT * FROM User')
-    //console.log(results);
 
 }
 
+const postUpdateUser = async (req, res) => {
+
+    let results = await updateUser(req, res)
+
+    console.log(results)
+    res.send('update user succeed')
+
+}
+
+
+const getUpdatePage = async (req, res) => {
+    let results = await getUpdateUser(req, res);
+    let user = results && results.length > 0 ? results[0] : {}
+    res.render('update.ejs', { userInfo: user })
+}
+
 module.exports = {
-    getHomepage, getABC, getBruh, createUser, createUserPage
+    getHomepage, getABC, getBruh, postCreateUser, createUserPage, getUpdatePage, postUpdateUser
 }

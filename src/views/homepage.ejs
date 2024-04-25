@@ -11,18 +11,43 @@
 <body>
     <div class="topnav">
         <a class="active" href="/">Home</a>
-        <a href="/create">Create users</a>
+        <a href="/create">Create User</a>
     </div>
 
     <div class="table-container">
         <p class="title"> List of Users</p>
+
         <table>
+
             <tr>
                 <th>ID</th>
                 <th>Email</th>
                 <th>Name</th>
                 <th>City</th>
+                <th>Action</th>
             </tr>
+
+            <% listUsers.forEach( (user)=> { %>
+                <tr>
+                    <td>
+                        <%=user.id %>
+                    </td>
+                    <td>
+                        <%=user.email %>
+                    </td>
+                    <td>
+                        <%=user.name %>
+                    </td>
+                    <td>
+                        <%=user.city %>
+                    </td>
+                    <td>
+                        <a href="/update/<%=user.id %>">Edit</a>
+                        <a href="/delete/<%=user.id %>">Delete</a>
+                    </td>
+                </tr>
+                <% }); %>
+
         </table>
     </div>
 </body>
