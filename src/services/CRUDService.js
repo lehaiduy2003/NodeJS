@@ -5,31 +5,39 @@ const getAllUsers = async () => {
     return results;
 }
 
-const createUser = async (req, res) => {
+const createUser = async (email, name, city) => {
     let [results, fields] = await (await connection).execute(
         `INSERT INTO User (email, name, city)
         VALUES(?, ?, ?)`,
-        [req.body.email, req.body.name, req.body.city])
+        [email, name, city])
 
     return results
 }
 
-const updateUser = async (req, res) => {
+const updateUser = async (email, name, city, id) => {
+    console.log([email, name, city])
     let [results, fields] = await (await connection).execute(
         `UPDATE User u
         SET u.email = ?, u.name = ?, u.city = ?
         WHERE u.id = ?`,
-        [req.body.email, req.body.name, req.body.city, req.params.id])
+        [email, name, city, id])
 
     return results
 }
 
-const getUpdateUser = async (req, res) => {
+const deleteUser = async (id) => {
+    let [results, fields] = await (await connection).execute(
+        `DELETE FROM User u WHERE u.id = ?`, [id])
+
+    return results
+}
+
+const getUser = async (id) => {
     let [results, fields] = await (await connection).execute(`SELECT * FROM User u
-        WHERE u.id = ?`, [req.params.id])
+        WHERE u.id = ?`, [id])
     return results
 }
 
 module.exports = {
-    getAllUsers, createUser, getUpdateUser, updateUser
+    getAllUsers, createUser, getUser, updateUser, deleteUser
 }
